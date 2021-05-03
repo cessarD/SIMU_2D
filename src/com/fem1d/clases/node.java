@@ -5,4 +5,6 @@ public class node extends item {
         setId(identifier);
         setX(x_coordinate);
     }
+
+
 }
