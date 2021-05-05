@@ -10,127 +10,51 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.*;
 
+import static com.fem1d.ReadFile.ReadMeshandConditions;
+
 public class Main {
+    enum lines {NOLINE,SINGLELINE,DOUBLELINE};
+    enum modes {NOMODE,INT_FLOAT,INT_INT_INT};
+    enum parameter {ELEMENT_LENGTH,THERMAL_CONDUCTIVITY,HEAT_SOURCE};
+    enum size {NODES,ELEMENTS,DIRICHLET,NEUMANN};
 
     public static void main(String[] args) {
         //instanciar archivos externos
         SEL tools= new SEL();
+        MATH_TOOLS mtools= new MATH_TOOLS();
+
+
 
 
         mesh m = new mesh();
         Vector localb=new Vector();
         Vector localk=new Vector();
         //revisar tamaño de matriz final
-        double [][] k = new double[2][2];
-        Vector b=new Vector();
-        Vector T=new Vector();
-	    System.out.println("hi");
+
+
         ReadMeshandConditions(m);
         tools.crearSistemasLocales(m,localk,localb);
 
 
         //comprobacion que localk y localb tienen datos
         //SE PUEDE BORRAR
-        double [][] j = (double[][]) localk.get(2);
-        System.out.println(j[0][0]);
-        System.out.println(localb.get(0));
+        //double [][] j = (double[][]) localk.get(2);
+        //System.out.println(j[0][0]);
+       // System.out.println(localb.get(0));
+        double [][] k = new double[m.getSize(size.NODES.ordinal())][m.getSize(size.NODES.ordinal())];
+        Vector b=new Vector();
+        Vector T=new Vector();
 
+       // System.out.println(k[0][0]);
+       mtools.zeroesm(k,m.getSize(size.NODES.ordinal()));
+        mtools.zeroesv(b,m.getSize(size.NODES.ordinal()));
 
-    }
-
-
-    public static void ReadMeshandConditions(mesh m){
-        int nnodes, neltos, ndirich, nneuman;
-        Scanner in = new Scanner(System.in);
-        String filename;
-        File entrydata;
-        float  l,k,Q;
-
-        do {
-            //System.out.println("Ingrese ruta de acceso del archivo:");
-            //filename= in.nextLine();
-
-
-            //entrydata= new File("/home/rene/Documents/Ciclo2021/codigosidequest/SIMU/src/com/fem1d/clases/problem.msh");
-            //System.out.println(entrydata.exists());
-
-                    entrydata= new File("C:/Users/cesar/IdeaProjects/SIMU2/src/com/fem1d/clases/problem.msh");
-
-        }while(!entrydata.exists());
-
-        //archivo abierto, buscando variables de archivo msh
-
-        try {
-            Scanner reader= new Scanner(entrydata);
-                //sacando valores de l q k
-                l=reader.nextFloat();
-                k=reader.nextFloat();
-                Q=reader.nextFloat();
-                //System.out.println("L="+l+"k="+k+"Q="+Q);
-
-                //Obteniendo Condiciones
-                reader.nextLine();
-                nnodes= reader.nextInt();
-                neltos= reader.nextInt();
-                ndirich= reader.nextInt();
-                nneuman= reader.nextInt();
-                //System.out.println("nodos="+nnodes+"neltos="+neltos+"ndirich="+ndirich+"nneuman="+nneuman);
-
-                m.setParameters(l,k,Q);
-                m.setSizes(nnodes,neltos,ndirich,nneuman);
-                //crear data
-                //m.createData();
-            for(int i=0;i<3;i++){
-                reader.nextLine();
-            }
-
-
-            for (int i=0;i<nnodes;i++){
-                node n = new node();
-                n.setnode(reader.nextInt(), reader.nextFloat());
-                m.getNodes().add(i,n);
-
-            }
-            for(int i=0;i<4;i++){
-                reader.nextLine();
-            }
-            for (int i=0;i<neltos;i++){
-                element n = new element();
-                n.setelement(reader.nextInt(), reader.nextInt(), reader.nextInt());
-                m.getElements().add(i,n);
-
-            }
-            for(int i=0;i<4;i++){
-                reader.nextLine();
-            }
-            for (int i=0;i<ndirich;i++){
-                condition n = new condition();
-                n.setcondition(reader.nextInt(), reader.nextFloat());
-                m.getDirichlet().add(i,n);
-
-            }
-            for(int i=0;i<4;i++){
-                reader.nextLine();
-            }
-            for (int i=0;i<nneuman;i++){
-                condition n = new condition();
-                n.setcondition(reader.nextInt(), reader.nextFloat());
-                m.getNeumann().add(i,n);
-
-            }
-
-
-
-
-
-
-        }catch (FileNotFoundException e){
-            System.out.println(e);
-            e.printStackTrace();
-        }
-
+       // System.out.println(b.get(0));
 
     }
+
+
+
 
 
 
