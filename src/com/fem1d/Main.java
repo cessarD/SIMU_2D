@@ -29,12 +29,13 @@ public class Main {
         tools.crearSistemasLocales(m,localk,localb);
 
 
-        //no se como revisar que el localK este cargado
-        // System.out.println(localk.elementAt(0)[0][0]);
+        //comprobacion que localk y localb tienen datos
+        //SE PUEDE BORRAR
+        double [][] j = (double[][]) localk.get(2);
+        System.out.println(j[0][0]);
+        System.out.println(localb.get(0));
 
 
-
-        System.out.println(localb.get(2));
     }
 
 

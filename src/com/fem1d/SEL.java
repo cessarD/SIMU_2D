@@ -62,13 +62,15 @@ public class SEL {
 
     void crearSistemasLocales(mesh m, Vector localKs, Vector localbs){
         //Se recorren los elementos
-        System.out.println("archivo"+m.getSize(size.ELEMENTS.ordinal()));
+
         for(int i=0;i<m.getSize(size.ELEMENTS.ordinal());i++){
             //Por cada elemento, se crea su K y su b
             localKs.addElement(createLocalK(i,m));
            localbs.addElement(createLocalb(i,m));
 
         }
+
+
 
     }
 
