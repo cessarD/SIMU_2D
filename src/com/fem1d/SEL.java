@@ -31,15 +31,15 @@ public class SEL {
         matriz[0][0]=new Double(row1.get(0).toString()); matriz[0][1]=new Double(row1.get(1).toString());
         matriz[1][0]=new Double(row2.get(0).toString()); matriz[1][1]=new Double(row2.get(1).toString());
 
+        //opcion 2
 
 
 
-       // for(int i=0;i<2;i++){
-            //for(int j=0;j<2;j++){
-               // System.out.println(matriz[i][j]);
-          //  }
-     //   }
-      //  System.out.println("cambio de local");
+
+        showMatrix(matriz);
+
+
+        System.out.println("cambio de local");
         return matriz;
     }
 
@@ -73,5 +73,46 @@ public class SEL {
 
 
     }
+
+    //mostrar vector
+
+    void showVector(Vector b){
+        for (int i = 0; i < b.size(); i++) {
+            System.out.println(b.elementAt(i)+"\t");
+        }
+        System.out.println("\n");
+    }
+
+    void showVectorArray(Vector<Vector> bb){
+        for (int i = 0; i < bb.size(); i++) {
+            System.out.println("b del elemento #"+i+1);
+            showVector(bb.elementAt(i));
+            System.out.println("*********************************\n");
+        }
+    }
+
+    //mostrar matrices
+
+    void showMatrix(double[][] K){
+        for (int i = 0; i <K.length ; i++) {
+            System.out.print("[\t");
+            for (int j = 0; j < K.length; j++) {
+                System.out.print(K[i][j]+"\t");
+            }
+            System.out.println("]");
+        }
+        System.out.println("\n");
+    }
+
+    void ShowKs(Vector<double[][]> Ks){
+        for (int i = 0; i < Ks.size(); i++) {
+            System.out.print("K del elemento #" +i+1);
+            showMatrix(Ks.elementAt(i));
+            System.out.println("*********************************\n");
+        }
+    }
+
+
+
 
 }

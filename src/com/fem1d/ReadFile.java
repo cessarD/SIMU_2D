@@ -22,10 +22,10 @@ public class ReadFile {
             //filename= in.nextLine();
 
 
-            //entrydata= new File("/home/rene/Documents/Ciclo2021/codigosidequest/SIMU/src/com/fem1d/clases/problem.msh");
-            //System.out.println(entrydata.exists());
+            entrydata= new File("/home/rene/Documents/Ciclo2021/codigosidequest/SIMU/src/com/fem1d/clases/problem.msh");
+            System.out.println(entrydata.exists());
 
-            entrydata= new File("C:/Users/cesar/IdeaProjects/SIMU2/src/com/fem1d/clases/problem.msh");
+            //entrydata= new File("C:/Users/cesar/IdeaProjects/SIMU2/src/com/fem1d/clases/problem.msh");
 
         }while(!entrydata.exists());
 
@@ -37,7 +37,7 @@ public class ReadFile {
             l=reader.nextFloat();
             k=reader.nextFloat();
             Q=reader.nextFloat();
-            //System.out.println("L="+l+"k="+k+"Q="+Q);
+            System.out.println("L="+l+"k="+k+"Q="+Q);
 
             //Obteniendo Condiciones
             reader.nextLine();
@@ -45,7 +45,7 @@ public class ReadFile {
             neltos= reader.nextInt();
             ndirich= reader.nextInt();
             nneuman= reader.nextInt();
-            //System.out.println("nodos="+nnodes+"neltos="+neltos+"ndirich="+ndirich+"nneuman="+nneuman);
+            System.out.println("nodos="+nnodes+"\nneltos="+neltos+"\nndirich="+ndirich+"\nnneuman="+nneuman);
 
             m.setParameters(l,k,Q);
             m.setSizes(nnodes,neltos,ndirich,nneuman);
@@ -60,7 +60,6 @@ public class ReadFile {
                 node n = new node();
                 n.setnode(reader.nextInt(), reader.nextFloat());
                 m.getNodes().add(i,n);
-
             }
             for(int i=0;i<4;i++){
                 reader.nextLine();
@@ -85,15 +84,14 @@ public class ReadFile {
             }
             for (int i=0;i<nneuman;i++){
                 condition n = new condition();
+
                 n.setcondition(reader.nextInt(), reader.nextFloat());
                 m.getNeumann().add(i,n);
 
             }
 
-
-
-
-
+            //cerrando archivo
+            reader.close();
 
         }catch (FileNotFoundException e){
             System.out.println(e);
