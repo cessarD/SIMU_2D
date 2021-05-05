@@ -41,13 +41,18 @@ public class Main {
         //double [][] j = (double[][]) localk.get(2);
         //System.out.println(j[0][0]);
        // System.out.println(localb.get(0));
-        double [][] k = new double[m.getSize(size.NODES.ordinal())][m.getSize(size.NODES.ordinal())];
+        Double [][] k = new Double[m.getSize(size.NODES.ordinal())][m.getSize(size.NODES.ordinal())];
         Vector b=new Vector();
         Vector T=new Vector();
 
        // System.out.println(k[0][0]);
        mtools.zeroesm(k,m.getSize(size.NODES.ordinal()));
         mtools.zeroesv(b,m.getSize(size.NODES.ordinal()));
+
+
+
+        tools.Assembly(m, localk,localb,k,b);
+
 
        // System.out.println(b.get(0));
 
