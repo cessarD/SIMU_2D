@@ -96,6 +96,9 @@ public class SEL {
 
         a += Double.parseDouble(localB.elementAt(0).toString());
         b += Double.parseDouble(localB.elementAt(1).toString());
+        B.remove(index2);
+        B.remove(index1);
+
 
         B.add(index1,a);
         B.add(index2,b);
@@ -175,14 +178,15 @@ public class SEL {
             float n = new Float(b.get(c.getNode1()-1).toString());
             System.out.println("nodo a cambiar "+ (c.getNode1()-1));
             n += c.getValue();
+            b.remove(c.getNode1()-1);
             b.add(c.getNode1()-1,n);
         }
     }
-    void applyDirichlet(mesh m,double[][] K,Vector b){
+    void applyDirichlet(mesh m,double[][] K,Vector b,double[][] Kd,Vector bd){
         //Se recorren las condiciones de Dirichlet, una por una
-        for(int i=0;i<m.getSize(size.DIRICHLET.ordinal());i++){
+        for(int i = 0; i<m.getSize(SEL.size.DIRICHLET.ordinal()); i++){
             //Se extrae la condición de Dirichlet actual
-            condition c = m.getCondition(i,size.DIRICHLET.ordinal());
+            condition c = m.getCondition(i, SEL.size.DIRICHLET.ordinal());
             //Se establece el nodo de la condición como el índice
             //para K y b globales donde habrá modificaciones
             int index = c.getNode1()-1;
@@ -196,13 +200,20 @@ public class SEL {
                 System.out.println();
             }
             //Se elimina la fila correspondiente al nodo de la condición
-            K=removerFila(K,index); //Se usa un iterator a la posición inicial, y se
-           //le agrega la posición de interés
-            b.remove(index);
+            Kd=removerFila(K,index); //Se usa un iterator a la posición inicial, y se
+            //le agrega la posición de interés
+
+            bd=removerelemento(m,b,index);
+
+            System.out.println("vector final B con diri");
+            for (int kk = 0; kk < bd.size(); kk++) {
+                System.out.print(bd.get(kk) + " ");
+            }
+            System.out.println();
             System.out.println("Post Eliminacion");
-            for (int l = 0; l < K.length; l++) {
-                for (int j = 0; j < K[0].length; j++) {
-                    System.out.print("[" + l + "][" + j + "]= " + String.format("%.2f",K[l][j]));
+            for (int l = 0; l < Kd.length; l++) {
+                for (int j = 0; j < Kd[0].length; j++) {
+                    System.out.print("[" + l + "][" + j + "]= " + String.format("%.2f",Kd[l][j]));
 
                 }
                 System.out.println();
@@ -214,7 +225,7 @@ public class SEL {
 
         }
     }
-    public static double[][] removerFila(double[][] matriz, int fila) {
+     double[][] removerFila(double[][] matriz, int fila) {
         if (fila < 0 || fila >= matriz.length) {
             return matriz;
         } else {
@@ -227,21 +238,33 @@ public class SEL {
                 }
 
                 if(b<=nueva.length){
-                for (int j = 0; j < nueva[0].length; j++) {
+                    for (int j = 0; j < nueva[0].length; j++) {
 
 
                         nueva[l][j]=matriz[b][j];
 
 
-                }
+                    }
                     b++;
 
-            }}
+                }}
 
             return nueva;
         }
     }
+    Vector removerelemento(mesh m,Vector b,int index){
+        Vector a = new Vector();
 
+        for(int i = 0; i<m.getSize(SEL.size.NODES.ordinal()); i++){
+
+            if(i!=index){
+
+                a.add(b.get(i));
+            }
+        }
+
+        return a;
+    }
 
 
 }
