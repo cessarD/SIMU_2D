@@ -2,6 +2,7 @@ package com.fem1d;
 
 import com.sun.net.httpserver.Authenticator;
 
+import java.awt.*;
 import java.util.Vector;
 
 public class MATH_TOOLS {
@@ -25,13 +26,26 @@ public class MATH_TOOLS {
             v.addElement(0.0);
         }
     }
-    void getMinor(double[][] M, int i, int j){
+    double[][] getMinor(double[][] M, int i, int j){
         SEL sl = new SEL();
 
         //eliminación de columna j y fila i
-        M=sl.removerFila(M,i);
-        M=sl.removerColumna(M,j);
+        //System.out.println("normal");
+        //sl.showMatrix(M);
 
+
+        M=sl.removerFila(M,i);
+        //System.out.println("- fila");
+        ///sl.showMatrix(M);
+
+
+        M=sl.removerColumna(M,j);
+        //System.out.println("-fila & columna ");
+        //sl.showMatrix(M);
+
+
+
+       return M;
     }
 
     void copyMatrix(double[][] A, double[][] copy ){
@@ -53,7 +67,7 @@ public class MATH_TOOLS {
     double determinant(double[][] M){
 
         if (M.length==1){
-            return M[10][0];
+            return M[0][0];
         }
         else {
             double det= 0.0;
@@ -61,42 +75,88 @@ public class MATH_TOOLS {
             for (int i = 0; i < M.length; i++) {
                 double[][] minor= new double[M.length][M[0].length];
                 copyMatrix(M,minor);
-                //getMinor(minor,0,i);
-
+                double[][] minor2= getMinor(minor,0,i);
 
                 //cal det
-                det+= Math.pow(-1, i )*(M[0][i]);//*(determinant(minor));
+                det+= Math.pow(-1, i )*(M[0][i])*(determinant(minor2));
             }
             return det;
         }
     }
 
+    double[][] cofactor(double[][] M, double[][]Cof ) {
+
+        zeroesm(Cof, M.length);
+
+        for (int i = 0; i < M.length; i++) {
+            for (int j = 0; j < M[0].length; j++) {
+                double[][] minor= new double[M.length][M[0].length];
+                double[][] minor2;
+                copyMatrix(M,minor);
+                minor2=getMinor(M,i,j);
+
+                Cof[i][j]= Math.pow(-1,i+j)*determinant(minor2);
+            }
+
+        }
+
+
+        return Cof;
+    }
+
+    void transpose(double[][] M, double[][] T){
+
+        zeroesm(T, M.length);
+        for (int i = 0; i <M.length ; i++) {
+            for (int j = 0; j <M[0].length ; j++) {
+                T[j][i]=M[i][j];
+
+            }
+        }
+
+    }
     void inverseMatrix(double[][] M, double[][] Minv){
-        double[][] Cof, Adj;
+        double[][] Cof= new double[M.length][M[0].length];
+
 
         for (int l = 0; l < M.length; l++) {
             for (int j = 0; j < M[0].length; j++) {
                 System.out.print( String.format("%.2f",M[l][j])+"\t");
-
             }
             System.out.println();
         }
 
-        double det = determinant(M);
+        //determinante signo malo.
+        double det = -1*determinant(M);
+
         if(det==0)
             System.out.println("falla");
+        else
+            System.out.println("\n"+det);
 
 
 
 
         //confactors
 
+
+        Cof= cofactor(M, Cof);
+        SEL SL= new SEL();
+
+        System.out.println("Cof");
+        SL.showMatrix(Cof);
+        double[][] Adj= new double[Cof.length][Cof[0].length];
+
         // transpose
+        transpose(Cof,Adj);
+        System.out.println("Trans");
+        SL.showMatrix(Adj);
+
 
         //product real matrix
 
 
-        //float det =
+        //float det
 
     }
 }
