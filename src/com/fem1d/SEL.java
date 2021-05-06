@@ -186,10 +186,11 @@ public class SEL {
             //Se establece el nodo de la condición como el índice
             //para K y b globales donde habrá modificaciones
             int index = c.getNode1()-1;
+            System.out.println(index);
             System.out.println("Previo Eliminacion");
             for (int l = 0; l < K.length; l++) {
                 for (int j = 0; j < K[0].length; j++) {
-                    System.out.print("[" + l + "][" + j + "]= " + K[l][j]);
+                    System.out.print("[" + l + "][" + j + "]= " + String.format("%.2f",K[l][j]));
 
                 }
                 System.out.println();
@@ -201,7 +202,7 @@ public class SEL {
             System.out.println("Post Eliminacion");
             for (int l = 0; l < K.length; l++) {
                 for (int j = 0; j < K[0].length; j++) {
-                    System.out.print("[" + l + "][" + j + "]= " + K[l][j]);
+                    System.out.print("[" + l + "][" + j + "]= " + String.format("%.2f",K[l][j]));
 
                 }
                 System.out.println();
@@ -217,21 +218,23 @@ public class SEL {
         if (fila < 0 || fila >= matriz.length) {
             return matriz;
         } else {
-            double[][] nueva = new double[matriz.length - 1][matriz[0].length];
+            double[][] nueva = new double[matriz.length-1 ][matriz[0].length];
 
-
+            int b=0;
             for (int l =0; l < nueva.length; l++) {
-                if(fila==l){
-                    l++;
+                if(fila==b){
+                    b++;
                 }
-                if(l<nueva.length){
+
+                if(b<=nueva.length){
                 for (int j = 0; j < nueva[0].length; j++) {
 
 
-                        nueva[l][j]=matriz[l][j];
+                        nueva[l][j]=matriz[b][j];
 
 
                 }
+                    b++;
 
             }}
 
