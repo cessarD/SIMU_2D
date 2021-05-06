@@ -21,9 +21,9 @@ public class ReadFile {
             //System.out.println("Ingrese ruta de acceso del archivo:");
             //filename= in.nextLine();
 
-
-            entrydata= new File("/home/rene/Documents/Ciclo2021/codigosidequest/SIMU/src/com/fem1d/clases/problem.msh");
-            System.out.println(entrydata.exists());
+            entrydata= new File("C:/Users/cesar/IdeaProjects/SIMU2/src/com/fem1d/clases/problem.msh");
+            //entrydata= new File("/home/rene/Documents/Ciclo2021/codigosidequest/SIMU/src/com/fem1d/clases/problem.msh");
+           // System.out.println(entrydata.exists());
 
             //entrydata= new File("C:/Users/cesar/IdeaProjects/SIMU2/src/com/fem1d/clases/problem.msh");
 

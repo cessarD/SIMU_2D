@@ -73,7 +73,7 @@ public class SEL {
 
     //Assembly
 
-    void assemblyK(element e,Double[][] localK, Double[][] K){
+    void assemblyK(element e,double[][] localK, double[][] K){
         //determinar indices de K Global
         int index1= e.getNode1()-1;
         int index2= e.getNode2()-1;
@@ -89,17 +89,27 @@ public class SEL {
         int index1= e.getNode1()-1;
         int index2= e.getNode2()-1;
 
-        System.out.println(localB.get(0).getClass().getName());
-        System.out.println(B.get(0).getClass().getName());
+
+        double a= Double.parseDouble(B.elementAt(index1).toString());
+        double b= Double.parseDouble(B.elementAt(index2).toString());
+
+        a += Double.parseDouble(localB.elementAt(0).toString());
+        b += Double.parseDouble(localB.elementAt(1).toString());
+
+        B.add(index1,a);
+        B.add(index2,b);
+
+       // System.out.println(localB.get(0).getClass().getName());
+     //   System.out.println(B.get(0).getClass().getName());
 
         //System.out.println(Double.parseDouble(B.elementAt(index1).toString()));
 //        definir celdas de subvector
-        //B.set(index1) =  Double.parseDouble(localB.elementAt(0));
-        //B.elementAt(index2) +=  localB.elementAt(1);
+       //B.elementAt(index1) +=  double.parsedouble(localB.elementAt(0));
+      // B.elementAt(index2).toString() +=  Double.parseDouble(localB.elementAt(1).toString());
 
     }
 
-    void Assembly(mesh m, Vector<Double[][]> localKs, Vector<Vector> localBs, Double[][] K, Vector B){
+    void Assembly(mesh m, Vector<double[][]> localKs, Vector<Vector> localBs, double[][] K, Vector B){
         for (int i = 0; i < m.getSize(size.ELEMENTS.ordinal()); i++) {
             //extraer elemento actual
             element e= m.getElement(i);
@@ -107,9 +117,11 @@ public class SEL {
             //K y B Ensamblaje
             //showMatrix(localKs.elementAt(i));
             //ShowKs(localKs);
-            //assemblyK(e, localKs.get(i), K);
+            assemblyK(e, localKs.get(i), K);
+
             assemblyB(e, localBs.elementAt(i), B);
         }
+
     }
 
 

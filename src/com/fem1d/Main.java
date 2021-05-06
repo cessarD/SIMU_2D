@@ -41,7 +41,7 @@ public class Main {
         //double [][] j = (double[][]) localk.get(2);
         //System.out.println(j[0][0]);
        // System.out.println(localb.get(0));
-        Double [][] k = new Double[m.getSize(size.NODES.ordinal())][m.getSize(size.NODES.ordinal())];
+        double [][] k = new double[m.getSize(size.NODES.ordinal())][m.getSize(size.NODES.ordinal())];
         Vector b=new Vector();
         Vector T=new Vector();
 
@@ -52,8 +52,10 @@ public class Main {
 
 
         tools.Assembly(m, localk,localb,k,b);
-
-
+        System.out.println("vector final B");
+        for (int i=0;i<10;i++){
+            System.out.println(b.get(i));
+        }
        // System.out.println(b.get(0));
 
     }

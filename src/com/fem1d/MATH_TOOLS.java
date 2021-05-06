@@ -3,7 +3,7 @@ package com.fem1d;
 import java.util.Vector;
 
 public class MATH_TOOLS {
-    void zeroesm(Double[][] M,int n){
+    void zeroesm(double[][] M,int n){
         //Se crean n filas
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
