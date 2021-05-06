@@ -134,7 +134,7 @@ public class SEL {
     void showVector(Vector b){
         System.out.print("[\t");
         for (int i = 0; i < b.size(); i++) {
-            System.out.print(b.elementAt(i)+"\t");
+            System.out.print(String.format("%.2f",b.elementAt(i))+"\t");
         }
         System.out.print("]\n");
     }
@@ -149,18 +149,18 @@ public class SEL {
 
     //mostrar matrices
 
-    void showMatrix(Double[][] K){
+    void showMatrix(double[][] K){
         for (int i = 0; i <K.length ; i++) {
             System.out.print("[\t");
-            for (int j = 0; j < K.length; j++) {
-                System.out.print(K[i][j]+"\t");
+            for (int j = 0; j < K[0].length; j++) {
+                System.out.print(String.format("%.2f",K[i][j])+"\t");
             }
             System.out.println("]");
         }
         System.out.println("\n");
     }
 
-    void ShowKs(Vector<Double[][]> Ks){
+    void ShowKs(Vector<double[][]> Ks){
         for (int i = 0; i < Ks.size(); i++) {
             System.out.print("K del elemento #" +i);
             showMatrix(Ks.elementAt(i));
@@ -229,16 +229,17 @@ public class SEL {
         if (fila < 0 || fila >= matriz.length) {
             return matriz;
         } else {
-            double[][] nueva = new double[matriz.length-1 ][matriz[0].length];
+            double[][] nueva = new double[matriz.length-1][matriz[0].length];
 
             int b=0;
-            for (int l =0; l < nueva.length; l++) {
-                if(fila==b){
+            for (int l =0; l < matriz.length-1; l++) {
+
+                if((fila)==b){
                     b++;
                 }
 
-                if(b<=nueva.length){
-                    for (int j = 0; j < nueva[0].length; j++) {
+
+                    for (int j = 0; j < matriz[0].length; j++) {
 
 
                         nueva[l][j]=matriz[b][j];
@@ -247,7 +248,7 @@ public class SEL {
                     }
                     b++;
 
-                }}
+                }
 
             return nueva;
         }
@@ -266,5 +267,31 @@ public class SEL {
         return a;
     }
 
+    double[][] removerColumna(double[][] matriz, int columna) {
+        double[][] nueva = new double[matriz.length][matriz[0].length-1];
+        if (columna < 0 || columna >= matriz.length) {
+            return matriz;
+        } else {
+            for (int l =0; l < nueva.length; l++) {
 
+                int b=0;
+
+                    for (int j = 0; j < nueva[0].length; j++) {
+                        if(columna==b){
+                            b++;
+                        }
+
+                        nueva[l][j]=matriz[l][b];
+                        b++;
+
+
+
+                }
+
+
+        }
+
+        }
+        return nueva;
+    }
 }

@@ -70,42 +70,48 @@ public class Main {
         //    }
         //    System.out.println();
         //  }
-        System.out.println("vector final B pre neumann");
-        tools.showVector(b);
+    //    System.out.println("vector final B pre neumann");
+     //   tools.showVector(b);
 
         tools.applyNeumann(m, b);
-        System.out.println("vector final B con neumann");
-       tools.showVector(b);
-        System.out.println("vector final B pre diri");
-        tools.showVector(b);
-        System.out.println();
+     //   System.out.println("vector final B con neumann");
+      // tools.showVector(b);
+       // System.out.println("vector final B pre diri");
+      //  tools.showVector(b);
+        //System.out.println();
 
 
         //DA ERROR CON OBJETOS
-
         //tools.applyDirichlet(m, k, b,kd,bd);
 
+        System.out.println("Matriz Original");
+        tools.showMatrix(k);
 
-
+            // aplicacion de Dirichlet
         for(int i = 0; i<m.getSize(SEL.size.DIRICHLET.ordinal()); i++){
-
             condition c = m.getCondition(i, SEL.size.DIRICHLET.ordinal());
-
             int index = c.getNode1()-1;
-
-
-
             k=tools.removerFila(k,index);
-
-
             b=tools.removerelemento(m,b,index);
+            for(int row=0; row<k.length;row++ ){
+                double valor= k[row][index];
+                double actual= Double.parseDouble(b.get(row).toString());
+                double nuevo = actual + (1*c.getValue()*valor);
+                b.remove(row);
+                b.add(row,nuevo);
+            }
+            k=tools.removerColumna(k,index);
+            }
 
 
-        }
+
+        System.out.println("Matriz con Dirichlet eliminacion de fila y columna");
+        tools.showMatrix(k);
 
         System.out.println("vector final B con diri");
         tools.showVector(b);
         System.out.println();
+
         // System.out.println("K despues de entrar al desvergue");
         // for (int l = 0; l < k.length; l++) {
         //    for (int j = 0; j < k[0].length; j++) {
