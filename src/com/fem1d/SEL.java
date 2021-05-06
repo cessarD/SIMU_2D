@@ -1,5 +1,6 @@
 package com.fem1d;
 
+import com.fem1d.clases.condition;
 import com.fem1d.clases.element;
 import com.fem1d.clases.mesh;
 
@@ -164,6 +165,79 @@ public class SEL {
         }
     }
 
+    void applyNeumann(mesh m,Vector b){
+        //Se recorren las condiciones de Neumann, una por una
+        for(int i=0;i<m.getSize(size.NEUMANN.ordinal());i++){
+            //Se extrae la condición de Neumann actual
+            condition c = m.getCondition(i,size.NEUMANN.ordinal());
+            //En la posición de b indicada por el nodo de la condición,
+            //se agrega el valor indicado por la condición
+            float n = new Float(b.get(c.getNode1()-1).toString());
+            System.out.println("nodo a cambiar "+ (c.getNode1()-1));
+            n += c.getValue();
+            b.add(c.getNode1()-1,n);
+        }
+    }
+    void applyDirichlet(mesh m,double[][] K,Vector b){
+        //Se recorren las condiciones de Dirichlet, una por una
+        for(int i=0;i<m.getSize(size.DIRICHLET.ordinal());i++){
+            //Se extrae la condición de Dirichlet actual
+            condition c = m.getCondition(i,size.DIRICHLET.ordinal());
+            //Se establece el nodo de la condición como el índice
+            //para K y b globales donde habrá modificaciones
+            int index = c.getNode1()-1;
+            System.out.println("Previo Eliminacion");
+            for (int l = 0; l < K.length; l++) {
+                for (int j = 0; j < K[0].length; j++) {
+                    System.out.print("[" + l + "][" + j + "]= " + K[l][j]);
+
+                }
+                System.out.println();
+            }
+            //Se elimina la fila correspondiente al nodo de la condición
+            K=removerFila(K,index); //Se usa un iterator a la posición inicial, y se
+           //le agrega la posición de interés
+            b.remove(index);
+            System.out.println("Post Eliminacion");
+            for (int l = 0; l < K.length; l++) {
+                for (int j = 0; j < K[0].length; j++) {
+                    System.out.print("[" + l + "][" + j + "]= " + K[l][j]);
+
+                }
+                System.out.println();
+            }
+            //Se recorren las filas restantes, una por una, de modo que
+            //el dato correspondiente en cada fila a la columna del nodo de la
+            //condición, se multiplique por el valor de Dirichlet, y se envíe al
+            //lado derecho del SEL con su signo cambiado
+
+        }
+    }
+    public static double[][] removerFila(double[][] matriz, int fila) {
+        if (fila < 0 || fila >= matriz.length) {
+            return matriz;
+        } else {
+            double[][] nueva = new double[matriz.length - 1][matriz[0].length];
+
+
+            for (int l =0; l < nueva.length; l++) {
+                if(fila==l){
+                    l++;
+                }
+                if(l<nueva.length){
+                for (int j = 0; j < nueva[0].length; j++) {
+
+
+                        nueva[l][j]=matriz[l][j];
+
+
+                }
+
+            }}
+
+            return nueva;
+        }
+    }
 
 
 

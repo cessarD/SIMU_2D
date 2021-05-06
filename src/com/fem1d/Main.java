@@ -52,11 +52,33 @@ public class Main {
 
 
         tools.Assembly(m, localk,localb,k,b);
-        System.out.println("vector final B");
-        for (int i=0;i<10;i++){
-            System.out.println(b.get(i));
+     //   System.out.println("vector final B");
+     //   for (int i=0;i<10;i++){
+     //       System.out.println(b.get(i));
+   //     }
+        System.out.println("K antes de entrar al desvergue");
+        for (int l = 0; l < k.length; l++) {
+            for (int j = 0; j < k[0].length; j++) {
+                System.out.print("[" + l + "][" + j + "]= " + k[l][j]);
+
+            }
+            System.out.println();
         }
+
+        tools.applyNeumann(m,b);
+     //   System.out.println("vector final B con neumann");
+       // for (int i=0;i<10;i++){
+       //     System.out.println(b.get(i));
+      //  }
+
+
+        tools.applyDirichlet(m,k,b);
        // System.out.println(b.get(0));
+        System.out.println("vector final B con diri");
+        for (int i=0;i<10;i++){
+            System.out.print(b.get(i) + " ");
+        }
+        System.out.println();
 
     }
 
