@@ -117,6 +117,13 @@ public class Main {
         //    for (int j = 0; j < k[0].length; j++) {
        // System.out.print("[" + l + "][" + j + "]= " + k[l][j]);
 
+
+
+        // Calcular
+        tools.calculate(k,b,T);
+
+
+
     }
 
 }

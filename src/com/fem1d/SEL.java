@@ -294,4 +294,17 @@ public class SEL {
         }
         return nueva;
     }
+
+    void calculate(double[][] k, Vector b, Vector T){
+        MATH_TOOLS mt= new MATH_TOOLS();
+
+        double[][] kinv= new double[9][9];
+
+        //invertir matrix
+        mt.inverseMatrix(k,kinv);
+
+        //calcular producto
+
+
+    }
 }
