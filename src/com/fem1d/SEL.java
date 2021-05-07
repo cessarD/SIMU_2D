@@ -301,10 +301,10 @@ public class SEL {
         double[][] kinv= new double[9][9];
 
         //invertir matrix
-        mt.inverseMatrix(k,kinv);
+        k=mt.inverseMatrix(k,kinv);
 
         //calcular producto
 
-
+        mt.productMatrixVector(k,b,T);
     }
 }

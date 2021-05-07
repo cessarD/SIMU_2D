@@ -115,7 +115,7 @@ public class MATH_TOOLS {
         }
 
     }
-    void inverseMatrix(double[][] M, double[][] Minv){
+    double[][] inverseMatrix(double[][] M, double[][] Minv){
         double[][] Cof= new double[M.length][M[0].length];
 
 
@@ -155,8 +155,46 @@ public class MATH_TOOLS {
 
         //product real matrix
 
-
+        productRealMatrix(1/det,Adj,Minv);
         //float det
-
+        return Minv;
     }
+
+    void productMatrixVector(double[][] A, Vector v, Vector R){
+        //Se aplica básicamente la formulación que puede
+        //consultarse en el siguiente enlace (entrar con cuenta UCA):
+        //          https://goo.gl/PEzWWe
+
+        //Se itera una cantidad de veces igual al número de filas de la matriz
+        for(int f=0;f<A.length;f++){
+            //Se inicia un acumulador
+            double cell = 0.0;
+            //Se calcula el valor de la celda de acuerdo a la formulación
+            for(int c=0;c<v.size();c++){
+                double ma= A[f][c];
+                double va= Double.parseDouble(v.elementAt(c).toString());
+                cell += (ma * va);
+              //  cell += A.at(f).at(c)*v.at(c);
+            }
+            double actual=Double.parseDouble(R.get(f).toString());
+            actual += cell;
+            R.remove(f);
+            //Se coloca el valor calculado en su celda correspondiente en la respuesta
+            R.add(f,cell);
+           // R.at(f) += cell;
+        }
+    }
+    void productRealMatrix(double real,double[][] M,double[][] R){
+        //Se prepara la matriz de respuesta con las mismas dimensiones de la
+        //matriz
+        zeroesm(R,M.length);
+        //Se recorre la matriz original
+        for(int i=0;i<M.length;i++)
+            for(int j=0;j<M[0].length;j++)
+                //La celda actual se multiplica por el real, y se almacena
+                //el resultado en la matriz de respuesta
+                R[i][j]=real * M[i][j];
+               // R.at(i).at(j) = real*M.at(i).at(j);
+    }
+
 }

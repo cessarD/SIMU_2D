@@ -117,12 +117,12 @@ public class Main {
         //    for (int j = 0; j < k[0].length; j++) {
        // System.out.print("[" + l + "][" + j + "]= " + k[l][j]);
 
-
+        mtools.zeroesv(T, m.getSize(size.NODES.ordinal()));
 
         // Calcular
         tools.calculate(k,b,T);
-
-
+        System.out.println("vector final respuesta");
+        tools.showVector(T);
 
     }
 
