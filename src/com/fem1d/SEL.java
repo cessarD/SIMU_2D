@@ -34,8 +34,6 @@ public class SEL {
         matriz[0][0]=new Double(row1.get(0).toString()); matriz[0][1]=new Double(row1.get(1).toString());
         matriz[1][0]=new Double(row2.get(0).toString()); matriz[1][1]=new Double(row2.get(1).toString());
 
-        //showMatrix(matriz);
-        //System.out.println("cambio de local");
         return matriz;
     }
 
@@ -53,8 +51,7 @@ public class SEL {
 
 
 
-        //System.out.println("vector");
-        showVector(b);
+
 
         return b;
     }
@@ -63,10 +60,12 @@ public class SEL {
 
     void crearSistemasLocales(mesh m, Vector localKs, Vector localbs){
         //Se recorren los elementos
-        System.out.println(m.getSize(size.ELEMENTS.ordinal()));
+
         for(int i=0;i<m.getSize(size.ELEMENTS.ordinal());i++){
             //Por cada elemento, se crea su K y su b
+
             localKs.addElement(createLocalK(i,m));
+
             localbs.addElement(createLocalb(i,m));
 
         }
@@ -103,13 +102,6 @@ public class SEL {
         B.add(index1,a);
         B.add(index2,b);
 
-       // System.out.println(localB.get(0).getClass().getName());
-     //   System.out.println(B.get(0).getClass().getName());
-
-        //System.out.println(Double.parseDouble(B.elementAt(index1).toString()));
-//        definir celdas de subvector
-       //B.elementAt(index1) +=  double.parsedouble(localB.elementAt(0));
-      // B.elementAt(index2).toString() +=  Double.parseDouble(localB.elementAt(1).toString());
 
     }
 
@@ -176,55 +168,13 @@ public class SEL {
             //En la posición de b indicada por el nodo de la condición,
             //se agrega el valor indicado por la condición
             float n = new Float(b.get(c.getNode1()-1).toString());
-            System.out.println("nodo a cambiar "+ (c.getNode1()-1));
+
             n += c.getValue();
             b.remove(c.getNode1()-1);
             b.add(c.getNode1()-1,n);
         }
     }
-    void applyDirichlet(mesh m,double[][] K,Vector b,double[][] Kd,Vector bd){
-        //Se recorren las condiciones de Dirichlet, una por una
-        for(int i = 0; i<m.getSize(SEL.size.DIRICHLET.ordinal()); i++){
-            //Se extrae la condición de Dirichlet actual
-            condition c = m.getCondition(i, SEL.size.DIRICHLET.ordinal());
-            //Se establece el nodo de la condición como el índice
-            //para K y b globales donde habrá modificaciones
-            int index = c.getNode1()-1;
-            System.out.println(index);
-            System.out.println("Previo Eliminacion");
-            for (int l = 0; l < K.length; l++) {
-                for (int j = 0; j < K[0].length; j++) {
-                    System.out.print("[" + l + "][" + j + "]= " + String.format("%.2f",K[l][j]));
 
-                }
-                System.out.println();
-            }
-            //Se elimina la fila correspondiente al nodo de la condición
-            Kd=removerFila(K,index); //Se usa un iterator a la posición inicial, y se
-            //le agrega la posición de interés
-
-            bd=removerelemento(m,b,index);
-
-            System.out.println("vector final B con diri");
-            for (int kk = 0; kk < bd.size(); kk++) {
-                System.out.print(bd.get(kk) + " ");
-            }
-            System.out.println();
-            System.out.println("Post Eliminacion");
-            for (int l = 0; l < Kd.length; l++) {
-                for (int j = 0; j < Kd[0].length; j++) {
-                    System.out.print("[" + l + "][" + j + "]= " + String.format("%.2f",Kd[l][j]));
-
-                }
-                System.out.println();
-            }
-            //Se recorren las filas restantes, una por una, de modo que
-            //el dato correspondiente en cada fila a la columna del nodo de la
-            //condición, se multiplique por el valor de Dirichlet, y se envíe al
-            //lado derecho del SEL con su signo cambiado
-
-        }
-    }
      double[][] removerFila(double[][] matriz, int fila) {
         if (fila < 0 || fila >= matriz.length) {
             return matriz;

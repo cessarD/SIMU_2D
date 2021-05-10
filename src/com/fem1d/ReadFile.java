@@ -18,15 +18,10 @@ public class ReadFile {
         float  l,k,Q;
 
         do {
-            //System.out.println("Ingrese ruta de acceso del archivo:");
-            //filename= in.nextLine();
 
-            //entrydata= new File("C:/Users/cesar/IdeaProjects/SIMU2/src/com/fem1d/clases/problem.msh");
-            entrydata= new File("/home/rene/Documents/Ciclo2021/codigosidequest/SIMU/src/com/fem1d/clases/problem.msh");
-           // System.out.println(entrydata.exists());
 
-            //entrydata= new File("C:/Users/cesar/IdeaProjects/SIMU2/src/com/fem1d/clases/problem.msh");
-
+            entrydata= new File("C:/Users/cesar/IdeaProjects/SIMU2/src/com/fem1d/clases/problem.msh");
+            //entrydata= new File("/home/rene/Documents/Ciclo2021/codigosidequest/SIMU/src/com/fem1d/clases/problem.msh");
         }while(!entrydata.exists());
 
         //archivo abierto, buscando variables de archivo msh
@@ -45,12 +40,10 @@ public class ReadFile {
             neltos= reader.nextInt();
             ndirich= reader.nextInt();
             nneuman= reader.nextInt();
-            System.out.println("nodos="+nnodes+"\nneltos="+neltos+"\nndirich="+ndirich+"\nnneuman="+nneuman);
+            System.out.println("nodos="+nnodes+"\nElementos="+neltos+"\nCondiciones de Dirichlet="+ndirich+"\nCondiciones de Nneuman="+nneuman);
 
             m.setParameters(l,k,Q);
             m.setSizes(nnodes,neltos,ndirich,nneuman);
-            //crear data
-            //m.createData();
             for(int i=0;i<3;i++){
                 reader.nextLine();
             }
