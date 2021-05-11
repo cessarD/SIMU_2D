@@ -98,15 +98,11 @@ public class MATH_TOOLS {
         double[][] Cof= new double[M.length][M[0].length];
 
 
-        //determinante signo malo.
-        double det = -1*determinant(M);
+
+        double det =-1*determinant(M);
 
         if(det==0)
             System.out.println("Error en determinante");
-
-
-
-
 
         //confactors
 

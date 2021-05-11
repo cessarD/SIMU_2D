@@ -19,9 +19,7 @@ public class ReadFile {
 
         do {
 
-
-            entrydata= new File("C:/Users/cesar/IdeaProjects/SIMU2/src/com/fem1d/clases/problem.msh");
-            //entrydata= new File("/home/rene/Documents/Ciclo2021/codigosidequest/SIMU/src/com/fem1d/clases/problem.msh");
+            entrydata= new File("src/com/fem1d/clases/problem.msh");
         }while(!entrydata.exists());
 
         //archivo abierto, buscando variables de archivo msh
