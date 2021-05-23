@@ -10,7 +10,7 @@ public class mesh {
     enum parameter {ELEMENT_LENGTH,THERMAL_CONDUCTIVITY,HEAT_SOURCE};
     enum size {NODES,ELEMENTS,DIRICHLET,NEUMANN};
 
-    float parameters[] = new float[3];
+    double parameters[] = new double[3];
     int sizes[] = new int[4];
     ArrayList<node> nodes = new ArrayList<node>();
     ArrayList<element> elements = new ArrayList<element>();
@@ -23,7 +23,7 @@ public class mesh {
 
 
 
-    public  void setParameters(float l,float k,float Q){
+    public  void setParameters(double l,double k,double Q){
         parameters[parameter.ELEMENT_LENGTH.ordinal()]=l;
         parameters[parameter.THERMAL_CONDUCTIVITY.ordinal()]=k;
         parameters[parameter.HEAT_SOURCE.ordinal()]=Q;
@@ -37,7 +37,7 @@ public class mesh {
     public   int getSize(int s){
         return sizes[s];
     }
-    public   float getParameter(int p){
+    public   double getParameter(int p){
         return parameters[p];
     }
 

@@ -23,7 +23,7 @@ public class SEL {
         //          (k/l)*[ 1 -1 ; -1 1 ]
 
         //Se extraen del objeto mesh los valores de k y l
-        float k = m.getParameter(parameter.THERMAL_CONDUCTIVITY.ordinal()), l = m.getParameter(parameter.ELEMENT_LENGTH.ordinal());
+        double k = m.getParameter(parameter.THERMAL_CONDUCTIVITY.ordinal()), l = m.getParameter(parameter.ELEMENT_LENGTH.ordinal());
         //Se crean las filas
         //System.out.println(k+"/"+l+"=="+k/l);
         row1.add(0,k/l);row1.add(0,-k/l);
@@ -45,7 +45,7 @@ public class SEL {
         //          (Q*l/2)*[ 1 ; 1 ]
 
         //Se extraen del objeto mesh los valores de Q y l
-        float Q = m.getParameter(parameter.HEAT_SOURCE.ordinal()), l = m.getParameter(parameter.ELEMENT_LENGTH.ordinal());
+        double Q = m.getParameter(parameter.HEAT_SOURCE.ordinal()), l = m.getParameter(parameter.ELEMENT_LENGTH.ordinal());
         //Se insertan los datos en el vector
         b.add(Q*l/2); b.add(Q*l/2);
 

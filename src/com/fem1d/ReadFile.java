@@ -15,11 +15,11 @@ public class ReadFile {
         Scanner in = new Scanner(System.in);
         String filename;
         File entrydata;
-        float  l,k,Q;
-
+        double  l,k,Q;
+        System.out.println("hola");
         do {
 
-            entrydata= new File("src/com/fem1d/clases/problem.msh");
+            entrydata= new File("src/com/fem1d/clases/problem2d.msh");
         }while(!entrydata.exists());
 
         //archivo abierto, buscando variables de archivo msh
@@ -27,9 +27,10 @@ public class ReadFile {
         try {
             Scanner reader= new Scanner(entrydata);
             //sacando valores de l q k
-            l=reader.nextFloat();
-            k=reader.nextFloat();
-            Q=reader.nextFloat();
+
+            l=Double.parseDouble(reader.next());
+            k=Double.parseDouble(reader.next());
+            Q=Double.parseDouble(reader.next());
             System.out.println("L="+l+"k="+k+"Q="+Q);
 
             //Obteniendo Condiciones
@@ -49,7 +50,7 @@ public class ReadFile {
 
             for (int i=0;i<nnodes;i++){
                 node n = new node();
-                n.setnode(reader.nextInt(), reader.nextFloat());
+                n.setnode(Integer.parseInt(reader.next()), Float.parseFloat(reader.next()));
                 m.getNodes().add(i,n);
             }
             for(int i=0;i<4;i++){
@@ -66,7 +67,7 @@ public class ReadFile {
             }
             for (int i=0;i<ndirich;i++){
                 condition n = new condition();
-                n.setcondition(reader.nextInt(), reader.nextFloat());
+                n.setcondition(Integer.parseInt(reader.next()), Float.parseFloat(reader.next()));
                 m.getDirichlet().add(i,n);
 
             }
@@ -76,7 +77,7 @@ public class ReadFile {
             for (int i=0;i<nneuman;i++){
                 condition n = new condition();
 
-                n.setcondition(reader.nextInt(), reader.nextFloat());
+                n.setcondition(Integer.parseInt(reader.next()), Float.parseFloat(reader.next()));
                 m.getNeumann().add(i,n);
 
             }
