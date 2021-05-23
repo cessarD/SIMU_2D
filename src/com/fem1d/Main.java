@@ -38,10 +38,12 @@ public class Main {
         tools.crearSistemasLocales(m, localk, localb);
 
 
+
+
         double[][] k = new double[m.getSize(size.NODES.ordinal())][m.getSize(size.NODES.ordinal())];
         Vector b = new Vector();
         Vector T = new Vector();
-        mtools.zeroesm(k, m.getSize(size.NODES.ordinal()));
+        mtools.zeroesm(k, m.getSize(size.NODES.ordinal()),m.getSize(size.NODES.ordinal()));
         mtools.zeroesv(b, m.getSize(size.NODES.ordinal()));
         tools.Assembly(m, localk, localb, k, b);
         tools.applyNeumann(m, b);

@@ -3,6 +3,7 @@ package com.fem1d;
 import com.fem1d.clases.condition;
 import com.fem1d.clases.element;
 import com.fem1d.clases.mesh;
+import com.fem1d.clases.node;
 
 import javax.lang.model.util.Elements;
 import javax.swing.text.Element;
@@ -10,65 +11,141 @@ import java.util.*;
 public class SEL {
     enum lines {NOLINE,SINGLELINE,DOUBLELINE};
     enum modes {NOMODE,INT_FLOAT,INT_INT_INT};
-    enum parameter {ELEMENT_LENGTH,THERMAL_CONDUCTIVITY,HEAT_SOURCE};
+    enum parameter {THERMAL_CONDUCTIVITY,HEAT_SOURCE};
     enum size {NODES,ELEMENTS,DIRICHLET,NEUMANN};
 
 
+    MATH_TOOLS mtools = new MATH_TOOLS();
+
+    double calculateLocalD(int i,mesh m){
+        float D,a,b,c,d;
+
+        element e = m.getElement(i);
+
+        node n1 = m.getNode(e.getNode1()-1);
+        node n2 = m.getNode(e.getNode2()-1);
+        node n3 = m.getNode(e.getNode3()-1);
+
+        a=n2.getX()-n1.getX();b=n2.getY()-n1.getY();
+        c=n3.getX()-n1.getX();d=n3.getY()-n1.getY();
+        D = a*d - b*c;
+
+        return D;
+    }
+
+    double calculateLocalArea(int i,mesh m){
+        //Se utiliza la fórmula de Herón
+        double A,s,a,b,c;
+        element e = m.getElement(i);
+        node n1 = m.getNode(e.getNode1()-1);
+        node n2 = m.getNode(e.getNode2()-1);
+        node n3 = m.getNode(e.getNode3()-1);
+
+        a = calculateMagnitude(n2.getX()-n1.getX(),n2.getY()-n1.getY());
+        b = calculateMagnitude(n3.getX()-n2.getX(),n3.getY()-n2.getY());
+        c = calculateMagnitude(n3.getX()-n1.getX(),n3.getY()-n1.getY());
+        s = (a+b+c)/2;
+
+        A = Math.sqrt(s*(s-a)*(s-b)*(s-c));
+        return A;
+    }
+    double calculateMagnitude(float v1, float v2){
+        return Math.sqrt(Math.pow(v1,2)+Math.pow(v2,2));
+    }
+
+
+    double[][] calculateLocalA(int i,double[][] A,mesh m){
+        element e = m.getElement(i);
+        node n1 = m.getNode(e.getNode1()-1);
+        node n2 = m.getNode(e.getNode2()-1);
+        node n3 = m.getNode(e.getNode3()-1);
+
+        A[0][0] = n3.getY()-n1.getY(); A[0][1] = n1.getY()-n2.getY();
+        A[1][0] = n1.getX()-n3.getX();  A[1][1] = n2.getX()-n1.getX();
+        return A;
+    }
+    double[][] calculateB(double[][] A){
+
+        A[0][0] = -1; A[0][1] = 1;A[0][2] = 0;
+        A[0][0] = -1; A[0][1] = 0;A[0][2] = 1;
+        return A;
+    }
+
     double[][] createLocalK(int element,mesh m){
-        //Se prepara la matriz y sus dos filas (se sabe que es una matriz 2x2)
-        double [][] matriz = new double[2][2];
-        Vector row1=new Vector(), row2=new Vector();
+        //Se prepara la matriz y sus dos filas (se sabe que es una matriz 3x3)
+        double [][] K = new double[3][3];
 
-        //De acuerdo a la formulación, la matriz local K tiene la forma:
-        //          (k/l)*[ 1 -1 ; -1 1 ]
+        double D,Ae,k=m.getParameter(parameter.THERMAL_CONDUCTIVITY.ordinal());
+        double [][] A = new double[2][2];
 
-        //Se extraen del objeto mesh los valores de k y l
-        double k = m.getParameter(parameter.THERMAL_CONDUCTIVITY.ordinal()), l = m.getParameter(parameter.ELEMENT_LENGTH.ordinal());
-        //Se crean las filas
-        //System.out.println(k+"/"+l+"=="+k/l);
-        row1.add(0,k/l);row1.add(0,-k/l);
-        row2.add(0,-k/l);row2.add(0,k/l);
+        double [][] B = new double[2][3];
 
-        //Se insertan las filas en la matriz
 
-        matriz[0][0]=new Double(row1.get(0).toString()); matriz[0][1]=new Double(row1.get(1).toString());
-        matriz[1][0]=new Double(row2.get(0).toString()); matriz[1][1]=new Double(row2.get(1).toString());
+        D = calculateLocalD(element,m);
+        Ae = calculateLocalArea(element,m);
+        mtools.zeroesm(A,2,2);
+        mtools.zeroesm(B,2,3);
 
-        return matriz;
+        double [][] At= new double[2][2];
+        double [][] Bt= new double[3][2];
+        A=calculateLocalA(element,A,m);
+        B=calculateB(B);
+
+
+        At= mtools.transpose(A,At);
+        Bt= mtools.transpose(B,Bt);
+
+        K= mtools.productRealMatrix(k*Ae/(D*D),mtools.productMatrixMatrix(Bt,mtools.productMatrixMatrix(At,mtools.productMatrixMatrix(A,B,2,2,3),2,2,3),3,2,3),K);
+
+
+        return K;
+    }
+
+
+
+    float calculateLocalJ(int i,mesh m){
+        float J,a,b,c,d;
+        element e = m.getElement(i);
+        node n1 = m.getNode(e.getNode1()-1);
+        node n2 = m.getNode(e.getNode2()-1);
+        node n3 = m.getNode(e.getNode3()-1);
+
+        a=n2.getX()-n1.getX();b=n3.getX()-n1.getX();
+        c=n2.getY()-n1.getY();d=n3.getY()-n1.getY();
+        J = a*d - b*c;
+
+        return J;
     }
 
     Vector createLocalb(int element,mesh m){
-        //Se prepara el vector b (se sabe que será un vector 2x1)
-        Vector b=new Vector();;
+        Vector b = new Vector();;
 
-        //Se sabe que el vector local b tendrá la forma:
-        //          (Q*l/2)*[ 1 ; 1 ]
+        double Q = m.getParameter(parameter.HEAT_SOURCE.ordinal()),J,b_i;
+        J = calculateLocalJ(element,m);
 
-        //Se extraen del objeto mesh los valores de Q y l
-        double Q = m.getParameter(parameter.HEAT_SOURCE.ordinal()), l = m.getParameter(parameter.ELEMENT_LENGTH.ordinal());
-        //Se insertan los datos en el vector
-        b.add(Q*l/2); b.add(Q*l/2);
-
-
-
-
-
+        b_i = Q*J/6;
+        b.add(b_i);
+        b.add(b_i);
+        b.add(b_i);
         return b;
+
+
     }
 
 
 
     void crearSistemasLocales(mesh m, Vector localKs, Vector localbs){
-        //Se recorren los elementos
+
 
         for(int i=0;i<m.getSize(size.ELEMENTS.ordinal());i++){
-            //Por cada elemento, se crea su K y su b
+
 
             localKs.addElement(createLocalK(i,m));
 
-            localbs.addElement(createLocalb(i,m));
+           localbs.addElement(createLocalb(i,m));
 
         }
+
     }
 
     //Assembly

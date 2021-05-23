@@ -15,7 +15,7 @@ public class ReadFile {
         Scanner in = new Scanner(System.in);
         String filename;
         File entrydata;
-        double  l,k,Q;
+        double  k,Q;
         System.out.println("hola");
         do {
 
@@ -28,10 +28,10 @@ public class ReadFile {
             Scanner reader= new Scanner(entrydata);
             //sacando valores de l q k
 
-            l=Double.parseDouble(reader.next());
+
             k=Double.parseDouble(reader.next());
             Q=Double.parseDouble(reader.next());
-            System.out.println("L="+l+"k="+k+"Q="+Q);
+            System.out.println("k="+k+"Q="+Q);
 
             //Obteniendo Condiciones
             reader.nextLine();
@@ -41,7 +41,7 @@ public class ReadFile {
             nneuman= reader.nextInt();
             System.out.println("nodos="+nnodes+"\nElementos="+neltos+"\nCondiciones de Dirichlet="+ndirich+"\nCondiciones de Nneuman="+nneuman);
 
-            m.setParameters(l,k,Q);
+            m.setParameters(k,Q);
             m.setSizes(nnodes,neltos,ndirich,nneuman);
             for(int i=0;i<3;i++){
                 reader.nextLine();
@@ -50,7 +50,8 @@ public class ReadFile {
 
             for (int i=0;i<nnodes;i++){
                 node n = new node();
-                n.setnode(Integer.parseInt(reader.next()), Float.parseFloat(reader.next()));
+                n.setnode(reader.nextInt(), Float.parseFloat(reader.next()), Float.parseFloat(reader.next()));
+
                 m.getNodes().add(i,n);
             }
             for(int i=0;i<4;i++){
@@ -58,7 +59,8 @@ public class ReadFile {
             }
             for (int i=0;i<neltos;i++){
                 element n = new element();
-                n.setelement(reader.nextInt(), reader.nextInt(), reader.nextInt());
+                n.setelement(reader.nextInt(), reader.nextInt(), reader.nextInt(), reader.nextInt());
+
                 m.getElements().add(i,n);
 
             }
@@ -67,7 +69,7 @@ public class ReadFile {
             }
             for (int i=0;i<ndirich;i++){
                 condition n = new condition();
-                n.setcondition(Integer.parseInt(reader.next()), Float.parseFloat(reader.next()));
+                n.setcondition(reader.nextInt(), Float.parseFloat(reader.next()));
                 m.getDirichlet().add(i,n);
 
             }
@@ -77,10 +79,22 @@ public class ReadFile {
             for (int i=0;i<nneuman;i++){
                 condition n = new condition();
 
-                n.setcondition(Integer.parseInt(reader.next()), Float.parseFloat(reader.next()));
+                n.setcondition(reader.nextInt(), Float.parseFloat(reader.next()));
                 m.getNeumann().add(i,n);
 
             }
+            //correct conditions
+
+            for(int i=0;i<ndirich;i++)
+                m.getIndices()[i] = m.getDirichlet().get(i).getNode1();
+
+            for(int i=0;i<ndirich-1;i++){
+                int pivot = m.getDirichlet().get(i).getNode1();
+                for(int j=i;j<ndirich;j++)
+                    if(m.getDirichlet().get(j).getNode1()>pivot)
+                m.getDirichlet().get(j).setNode1(m.getDirichlet().get(j).getNode1()-1);
+            }
+
 
             //cerrando archivo
             reader.close();
@@ -92,4 +106,8 @@ public class ReadFile {
 
 
     }
+
+
+
+
 }

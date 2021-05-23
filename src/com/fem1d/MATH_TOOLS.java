@@ -6,10 +6,10 @@ import java.awt.*;
 import java.util.Vector;
 
 public class MATH_TOOLS {
-    void zeroesm(double[][] M,int n){
+    void zeroesm(double[][] M,int n,int m){
 
         for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
+            for(int j=0;j<m;j++){
 
                 M[i][j]=0.0;
             }
@@ -32,7 +32,7 @@ public class MATH_TOOLS {
 
     void copyMatrix(double[][] A, double[][] copy ){
 
-        zeroesm(copy, A.length);
+        zeroesm(copy, A.length,A.length);
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
                 copy[i][j]= A[i][j];
@@ -65,7 +65,7 @@ public class MATH_TOOLS {
 
     double[][] cofactor(double[][] M, double[][]Cof ) {
 
-        zeroesm(Cof, M.length);
+        zeroesm(Cof, M.length,M.length);
 
         for (int i = 0; i < M.length; i++) {
             for (int j = 0; j < M[0].length; j++) {
@@ -83,15 +83,16 @@ public class MATH_TOOLS {
         return Cof;
     }
 
-    void transpose(double[][] M, double[][] T){
+    double[][] transpose(double[][] M, double[][] T){
 
-        zeroesm(T, M.length);
+        zeroesm(T, M.length,M.length);
         for (int i = 0; i <M.length ; i++) {
             for (int j = 0; j <M[0].length ; j++) {
                 T[j][i]=M[i][j];
 
             }
         }
+        return T;
 
     }
     double[][] inverseMatrix(double[][] M, double[][] Minv){
@@ -145,14 +146,33 @@ public class MATH_TOOLS {
 
         }
     }
-    void productRealMatrix(double real,double[][] M,double[][] R){
+    double[][] productRealMatrix(double real,double[][] M,double[][] R){
 
-        zeroesm(R,M.length);
+        zeroesm(R,M.length,M.length);
         //Se recorre la matriz original
-        for(int i=0;i<M.length;i++)
-            for(int j=0;j<M[0].length;j++)
-                R[i][j]=real * M[i][j];
+        for(int i=0;i<M.length;i++){
+            for(int j=0;j<M[0].length;j++){
+                R[i][j]=real * M[i][j];}}
+        return R;
+    }
 
+    double calculateMember(int i,int j,int r,double[][] A,double[][] B){
+        double member = 0;
+        for(int k=0;k<r;k++)
+            member += A[i][k]*B[k][j];
+        return member;
+    }
+
+
+    double[][] productMatrixMatrix(double[][] A,double[][] B,int n,int r,int m){
+        double[][] R= new double[n][m];
+
+        zeroesm(R,n,m);
+        for(int i=0;i<n;i++)
+            for(int j=0;j<m;j++)
+                R[i][j] = calculateMember(i,j,r,A,B);
+
+        return R;
     }
 
 }
