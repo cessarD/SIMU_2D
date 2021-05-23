@@ -38,20 +38,25 @@ public class Main {
         tools.crearSistemasLocales(m, localk, localb);
 
 
+
+
         double[][] k = new double[m.getSize(size.NODES.ordinal())][m.getSize(size.NODES.ordinal())];
         Vector b = new Vector();
         Vector T = new Vector();
-        mtools.zeroesm(k, m.getSize(size.NODES.ordinal()));
+        mtools.zeroesm(k, m.getSize(size.NODES.ordinal()),m.getSize(size.NODES.ordinal()));
         mtools.zeroesv(b, m.getSize(size.NODES.ordinal()));
         tools.Assembly(m, localk, localb, k, b);
         tools.applyNeumann(m, b);
 
 
             // aplicacion de Dirichlet
+
         for(int i = 0; i<m.getSize(SEL.size.DIRICHLET.ordinal()); i++){
             condition c = m.getCondition(i, SEL.size.DIRICHLET.ordinal());
             int index = c.getNode1()-1;
             k=tools.removerFila(k,index);
+
+
             b=tools.removerelemento(m,b,index);
             for(int row=0; row<k.length;row++ ){
                 double valor= k[row][index];

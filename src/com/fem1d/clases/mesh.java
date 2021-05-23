@@ -7,11 +7,12 @@ import java.util.ArrayList;
 public class mesh {
     enum lines {NOLINE,SINGLELINE,DOUBLELINE};
     enum modes {NOMODE,INT_FLOAT,INT_INT_INT};
-    enum parameter {ELEMENT_LENGTH,THERMAL_CONDUCTIVITY,HEAT_SOURCE};
+    enum parameter {THERMAL_CONDUCTIVITY,HEAT_SOURCE};
     enum size {NODES,ELEMENTS,DIRICHLET,NEUMANN};
 
-    double parameters[] = new double[3];
+    double parameters[] = new double[2];
     int sizes[] = new int[4];
+    int indices[];
     ArrayList<node> nodes = new ArrayList<node>();
     ArrayList<element> elements = new ArrayList<element>();
     ArrayList<condition> dirichlet = new ArrayList<condition>();
@@ -23,8 +24,8 @@ public class mesh {
 
 
 
-    public  void setParameters(double l,double k,double Q){
-        parameters[parameter.ELEMENT_LENGTH.ordinal()]=l;
+    public  void setParameters(double k,double Q){
+
         parameters[parameter.THERMAL_CONDUCTIVITY.ordinal()]=k;
         parameters[parameter.HEAT_SOURCE.ordinal()]=Q;
     }
@@ -33,9 +34,13 @@ public class mesh {
         sizes[size.ELEMENTS.ordinal()] = neltos;
         sizes[size.DIRICHLET.ordinal()] = ndirich;
         sizes[size.NEUMANN.ordinal()] = nneu;
+        indices = new int[ndirich];
     }
     public   int getSize(int s){
         return sizes[s];
+    }
+    public   int[] getIndices(){
+        return indices;
     }
     public   double getParameter(int p){
         return parameters[p];
