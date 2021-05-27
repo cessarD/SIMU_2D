@@ -154,31 +154,44 @@ public class SEL {
         //determinar indices de K Global
         int index1= e.getNode1()-1;
         int index2= e.getNode2()-1;
+        int index3= e.getNode3()-1;
 
         //definir submatrices
         K[index1][index1]   +=  localK[0][0];
         K[index1][index2]   +=  localK[0][1];
+        K[index1][index3]   += localK[0][2];
+
+
         K[index2][index1]   +=  localK[1][0];
         K[index2][index2]   +=  localK[1][1];
+        K[index2][index3]   += localK[1][2];
+
+        K[index3][index1]   +=  localK[2][0];
+        K[index3][index2]   +=  localK[2][1];
+        K[index3][index3]   +=  localK[2][2];
+
     }
 
     void assemblyB(element e,Vector localB, Vector B){
         int index1= e.getNode1()-1;
         int index2= e.getNode2()-1;
+        int index3= e.getNode3()-1;
+
+        //according to code main
+
+        double a= Double.parseDouble(B.elementAt(index1).toString())+Double.parseDouble(localB.elementAt(0).toString());
+        double b= Double.parseDouble(B.elementAt(index2).toString())+Double.parseDouble(localB.elementAt(1).toString());
+        double c= Double.parseDouble(B.elementAt(index3).toString())+Double.parseDouble(localB.elementAt(2).toString());
 
 
-        double a= Double.parseDouble(B.elementAt(index1).toString());
-        double b= Double.parseDouble(B.elementAt(index2).toString());
-
-        a += Double.parseDouble(localB.elementAt(0).toString());
-        b += Double.parseDouble(localB.elementAt(1).toString());
-        B.remove(index2);
-        B.remove(index1);
+//        B.remove(index2);
+//        B.remove(index1);
+//        B.remove(index3);
 
 
         B.add(index1,a);
         B.add(index2,b);
-
+        B.add(index3,c);
 
     }
 
@@ -188,13 +201,11 @@ public class SEL {
             element e= m.getElement(i);
 
             //K y B Ensamblaje
-            //showMatrix(localKs.elementAt(i));
-            //ShowKs(localKs);
             assemblyK(e, localKs.get(i), K);
-
             assemblyB(e, localBs.elementAt(i), B);
         }
-
+        ShowKs(localKs);
+        //showVector(localBs);
     }
 
 
@@ -327,11 +338,12 @@ public class SEL {
 
         double[][] kinv= new double[9][9];
 
+        showMatrix(k);
         //invertir matrix
         k=mt.inverseMatrix(k,kinv);
 
         //calcular producto
 
-        mt.productMatrixVector(k,b,T);
+        //mt.productMatrixVector(k,b,T);
     }
 }

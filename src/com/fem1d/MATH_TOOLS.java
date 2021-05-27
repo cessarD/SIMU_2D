@@ -58,6 +58,7 @@ public class MATH_TOOLS {
 
                 //cal det
                 det+= Math.pow(-1, i )*(M[0][i])*(determinant(minor2));
+                //System.out.println(det);
             }
             return det;
         }
@@ -97,6 +98,8 @@ public class MATH_TOOLS {
     }
     double[][] inverseMatrix(double[][] M, double[][] Minv){
         double[][] Cof= new double[M.length][M[0].length];
+        System.out.println(M.length);
+        System.out.println(M[0].length);
 
 
 
