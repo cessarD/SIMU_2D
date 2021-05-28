@@ -47,6 +47,7 @@ public class SEL {
         s = (a+b+c)/2;
 
         A = Math.sqrt(s*(s-a)*(s-b)*(s-c));
+
         return A;
     }
     double calculateMagnitude(float v1, float v2){
@@ -62,12 +63,14 @@ public class SEL {
 
         A[0][0] = n3.getY()-n1.getY(); A[0][1] = n1.getY()-n2.getY();
         A[1][0] = n1.getX()-n3.getX();  A[1][1] = n2.getX()-n1.getX();
+
         return A;
     }
     double[][] calculateB(double[][] A){
 
         A[0][0] = -1; A[0][1] = 1;A[0][2] = 0;
-        A[0][0] = -1; A[0][1] = 0;A[0][2] = 1;
+        A[1][0] = -1; A[1][1] = 0;A[1][2] = 1;
+
         return A;
     }
 
@@ -95,10 +98,9 @@ public class SEL {
 
         At= mtools.transpose(A,At);
         Bt= mtools.transpose(B,Bt);
-        //showMatrix(B);
+
 
         K= mtools.productRealMatrix(k*Ae/(D*D),mtools.productMatrixMatrix(Bt,mtools.productMatrixMatrix(At,mtools.productMatrixMatrix(A,B,2,2,3),2,2,3),3,2,3),K);
-        //showMatrix(K);
 
         return K;
     }
@@ -186,14 +188,17 @@ public class SEL {
         double c= Double.parseDouble(B.elementAt(index3).toString())+Double.parseDouble(localB.elementAt(2).toString());
 
 
-//        B.remove(index2);
-//        B.remove(index1);
-//        B.remove(index3);
+        B.remove(index3);
+        B.add(index3,c);
+       B.remove(index2);
+        B.add(index2,b);
+       B.remove(index1);
+
 
 
         B.add(index1,a);
-        B.add(index2,b);
-        B.add(index3,c);
+
+
 
     }
 
@@ -204,9 +209,11 @@ public class SEL {
 
             //K y B Ensamblaje
             assemblyK(e, localKs.get(i), K);
+
             assemblyB(e, localBs.elementAt(i), B);
         }
-        //showMatrix(K);
+
+
     }
 
 
@@ -339,16 +346,16 @@ public class SEL {
 
         double[][] kinv= new double[9][9];
 
-        showMatrix(k);
+        //showMatrix(k);
         //invertir matrix
 
         k=mt.inverseMatrix(k,kinv);
 
-        showMatrix(k);
+
 
 
         //calcular producto
 
-        //mt.productMatrixVector(k,b,T);
+        mt.productMatrixVector(k,b,T);
     }
 }

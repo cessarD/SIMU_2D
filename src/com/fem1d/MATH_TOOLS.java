@@ -105,7 +105,7 @@ public class MATH_TOOLS {
 
 
 
-        double det =-1*determinant(M);
+        double det =determinant(M);
 
         if(det==0)
             System.out.println("Error en determinante");
@@ -114,6 +114,8 @@ public class MATH_TOOLS {
 
 
         Cof= cofactor(M, Cof);
+        SEL tools = new SEL();
+
         SEL SL= new SEL();
 
 
@@ -122,11 +124,15 @@ public class MATH_TOOLS {
         // transpose
         transpose(Cof,Adj);
 
+        System.out.println("adjunta");
+        tools.showMatrix(Adj);
 
 
         //product real matrix
 
         productRealMatrix(1/det,Adj,Minv);
+        System.out.println("adjunta*det");
+        tools.showMatrix(Minv);
         //float det
         return Minv;
     }
@@ -165,6 +171,7 @@ public class MATH_TOOLS {
         double member = 0;
         for(int k=0;k<r;k++)
             member += A[i][k]*B[k][j];
+
         return member;
     }
 
@@ -176,6 +183,7 @@ public class MATH_TOOLS {
         for(int i=0;i<n;i++)
             for(int j=0;j<m;j++)
                 R[i][j] = calculateMember(i,j,r,A,B);
+
 
         return R;
     }
