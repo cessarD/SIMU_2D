@@ -98,8 +98,10 @@ public class MATH_TOOLS {
     }
     double[][] inverseMatrix(double[][] M, double[][] Minv){
         double[][] Cof= new double[M.length][M[0].length];
-        System.out.println(M.length);
-        System.out.println(M[0].length);
+        //System.out.println(M.length);
+        //System.out.println(M[0].length);
+        zeroesm(Cof,M.length,M[0].length );
+
 
 
 

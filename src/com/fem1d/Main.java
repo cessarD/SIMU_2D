@@ -23,6 +23,7 @@ public class Main {
 
     public static void main(String[] args) {
         //instanciar archivos externos
+
         SEL tools = new SEL();
         MATH_TOOLS mtools = new MATH_TOOLS();
 
@@ -34,18 +35,20 @@ public class Main {
 
 
         ReadMeshandConditions(m);
+        //System.out.println(m.getSize(size.NODES.ordinal()));
 
         tools.crearSistemasLocales(m, localk, localb);
-
-
-
+        //tools.showVector(localk);
+        //tools.ShowKs(localk);
 
         double[][] k = new double[m.getSize(size.NODES.ordinal())][m.getSize(size.NODES.ordinal())];
+        //System.out.println(k.length);
         Vector b = new Vector();
         Vector T = new Vector();
         mtools.zeroesm(k, m.getSize(size.NODES.ordinal()),m.getSize(size.NODES.ordinal()));
         mtools.zeroesv(b, m.getSize(size.NODES.ordinal()));
         tools.Assembly(m, localk, localb, k, b);
+        //tools.showMatrix(k);
         tools.applyNeumann(m, b);
 
 
@@ -72,7 +75,6 @@ public class Main {
 
         // Calcular
         tools.calculate(k,b,T);
-
         System.out.println("vector final respuesta");
         tools.showVector(T);
 

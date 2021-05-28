@@ -74,11 +74,12 @@ public class SEL {
     double[][] createLocalK(int element,mesh m){
         //Se prepara la matriz y sus dos filas (se sabe que es una matriz 3x3)
         double [][] K = new double[3][3];
+        double [][] A = new double[2][2];
+        double [][] B = new double[2][3];
+
 
         double D,Ae,k=m.getParameter(parameter.THERMAL_CONDUCTIVITY.ordinal());
-        double [][] A = new double[2][2];
 
-        double [][] B = new double[2][3];
 
 
         D = calculateLocalD(element,m);
@@ -94,9 +95,10 @@ public class SEL {
 
         At= mtools.transpose(A,At);
         Bt= mtools.transpose(B,Bt);
+        //showMatrix(B);
 
         K= mtools.productRealMatrix(k*Ae/(D*D),mtools.productMatrixMatrix(Bt,mtools.productMatrixMatrix(At,mtools.productMatrixMatrix(A,B,2,2,3),2,2,3),3,2,3),K);
-
+        //showMatrix(K);
 
         return K;
     }
@@ -204,8 +206,7 @@ public class SEL {
             assemblyK(e, localKs.get(i), K);
             assemblyB(e, localBs.elementAt(i), B);
         }
-        ShowKs(localKs);
-        //showVector(localBs);
+        //showMatrix(K);
     }
 
 
@@ -214,9 +215,9 @@ public class SEL {
     void showVector(Vector b){
         System.out.print("[\t");
         for (int i = 0; i < b.size(); i++) {
-            System.out.print(String.format("%.2f",b.elementAt(i))+"\t");
+            System.out.print(b.elementAt(i)+"\t");
         }
-        System.out.print("]\n");
+        System.out.println("]\n");
     }
 
     void showVectorArray(Vector<Vector> bb){
@@ -340,7 +341,11 @@ public class SEL {
 
         showMatrix(k);
         //invertir matrix
+
         k=mt.inverseMatrix(k,kinv);
+
+        showMatrix(k);
+
 
         //calcular producto
 
