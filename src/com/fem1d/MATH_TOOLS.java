@@ -194,9 +194,9 @@ public class MATH_TOOLS {
         return R;
     }
 
-    boolean findIndex(int v, int s, ArrayList<condition> arr){
+    boolean findIndex(int v, int s, int[] arr){
         for (int i = 0; i < s; i++)
-            if (arr.get(i).getValue()==v)return true;
+            if (arr[i]==v)return true;
             return false;
     }
 
@@ -230,8 +230,8 @@ public class MATH_TOOLS {
             int n= m.getSize(SEL.size.NODES.ordinal());
             int nd= m.getSize(SEL.size.DIRICHLET.ordinal());
             // logica de ingreso de datos
-            for (int i = 0; i <9    ; i++) {
-                if(findIndex(i+1, nd,dirich)){
+            for (int i = 0; i <n    ; i++) {
+                if(findIndex(i+1, nd,dirichIndices)){
                     int num=1+i;
                     fw.write(""+num+"\t"+dirich.get(Dpos).getValue()+"\n");
                     Dpos++;
