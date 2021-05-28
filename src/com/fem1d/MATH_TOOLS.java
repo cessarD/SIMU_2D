@@ -1,8 +1,14 @@
 package com.fem1d;
 
+import com.fem1d.clases.condition;
+import com.fem1d.clases.mesh;
 import com.sun.net.httpserver.Authenticator;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class MATH_TOOLS {
@@ -186,6 +192,63 @@ public class MATH_TOOLS {
 
 
         return R;
+    }
+
+    boolean findIndex(int v, int s, ArrayList<condition> arr){
+        for (int i = 0; i < s; i++)
+            if (arr.get(i).getValue()==v)return true;
+            return false;
+    }
+
+    void writeResults(mesh m, Vector T, String filename){
+
+        int[] dirichIndices= m.getIndices();
+        ArrayList<condition> dirich= m.getDirichlet();
+        //creando o revisando si existe el archivo
+        try {
+            File Obj= new File(filename);
+            if (Obj.createNewFile()){
+                System.out.println("file creado: "+Obj.getName());
+            }else {
+                System.out.println("File Already Exist!");
+            }
+        }catch (Exception e){
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+        //llenando archivo
+        try {
+            FileWriter fw = new FileWriter(filename);
+            //headers
+            fw.write("GiD Post Results File 1.0\n");
+            fw.write("Result \"Temperature\" \"Load Case 1\" 1 Scalar OnNodes\nComponentNames \"T\"\nValues\n");
+            //data
+            int Tpos=0;
+            int Dpos=0;
+
+            int n= m.getSize(SEL.size.NODES.ordinal());
+            int nd= m.getSize(SEL.size.DIRICHLET.ordinal());
+            // logica de ingreso de datos
+            for (int i = 0; i <9    ; i++) {
+                if(findIndex(i+1, nd,dirich)){
+                    int num=1+i;
+                    fw.write(""+num+"\t"+dirich.get(Dpos).getValue()+"\n");
+                    Dpos++;
+                }else{
+                    int num=1+i;
+                    fw.write(""+num+"\t"+T.elementAt(Tpos)+"\n");
+                    Tpos++;
+                }
+            }
+            fw.write("End Values \n");
+            fw.close();
+        }catch (IOException e){
+            System.out.println("Error Escribiendo archivo");
+            e.printStackTrace();
+        }
+
+
     }
 
 }

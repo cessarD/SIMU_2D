@@ -64,7 +64,7 @@ public class Main {
             for(int row=0; row<k.length;row++ ){
                 double valor= k[row][index];
                 double actual= Double.parseDouble(b.get(row).toString());
-                double nuevo = actual + (1*c.getValue()*valor);
+                double nuevo = actual + (-1*c.getValue()*valor);
                 b.remove(row);
                 b.add(row,nuevo);
             }
@@ -78,6 +78,8 @@ public class Main {
         tools.calculate(k,b,T);
         System.out.println("vector final respuesta");
         tools.showVector(T);
+
+        mtools.writeResults(m,T,"data2.post.res");
 
     }
 
