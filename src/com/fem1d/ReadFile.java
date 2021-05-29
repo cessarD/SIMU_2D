@@ -39,7 +39,7 @@ public class ReadFile {
             neltos= reader.nextInt();
             ndirich= reader.nextInt();
             nneuman= reader.nextInt();
-            System.out.println("nodos="+nnodes+"\nElementos="+neltos+"\nCondiciones de Dirichlet="+ndirich+"\nCondiciones de Nneuman="+nneuman);
+            System.out.println("nodos="+nnodes+"\nElementos="+neltos+"\nCondiciones de Dirichlet="+ndirich+"\nCondiciones de Nneuman="+nneuman+"\n\n");
 
             m.setParameters(k,Q);
             m.setSizes(nnodes,neltos,ndirich,nneuman);

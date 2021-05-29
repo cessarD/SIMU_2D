@@ -355,7 +355,7 @@ public class SEL {
 
 
         //calcular producto
-
+        System.out.println("Ultimos ajustes");
         mt.productMatrixVector(k,b,T);
     }
 }

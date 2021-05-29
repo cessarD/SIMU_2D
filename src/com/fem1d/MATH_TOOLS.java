@@ -118,7 +118,7 @@ public class MATH_TOOLS {
 
         //confactors
 
-
+        System.out.println("Calculo de cofactores");
         Cof= cofactor(M, Cof);
         SEL tools = new SEL();
 
@@ -128,17 +128,16 @@ public class MATH_TOOLS {
         double[][] Adj= new double[Cof.length][Cof[0].length];
 
         // transpose
+        System.out.println("Calculo de Matriz Adjunta");
         transpose(Cof,Adj);
 
-        System.out.println("adjunta");
-        tools.showMatrix(Adj);
+
 
 
         //product real matrix
 
         productRealMatrix(1/det,Adj,Minv);
-        System.out.println("adjunta*det");
-        tools.showMatrix(Minv);
+
         //float det
         return Minv;
     }

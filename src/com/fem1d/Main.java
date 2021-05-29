@@ -70,9 +70,8 @@ public class Main {
             }
             k=tools.removerColumna(k,index);
             }
-        System.out.println("post diri");
-        tools.showMatrix(k);
-        mtools.zeroesv(T, m.getSize(size.NODES.ordinal())-1);
+
+        mtools.zeroesv(T, m.getSize(size.NODES.ordinal())-m.getSize(SEL.size.DIRICHLET.ordinal()));
 
         // Calcular
         tools.calculate(k,b,T);
